@@ -1,0 +1,9 @@
+# =================================================================
+# FILE: apps/docs/book.toml
+# This is the minimal configuration.
+# =================================================================
+[book]
+title = "Noda Copilot Project Documentation"
+authors = ["The Noda Turbo Team"]
+description = "Comprehensive technical documentation for the Noda Copilot project."
+language = "en"

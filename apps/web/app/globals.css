@@ -1,0 +1,582 @@
+/* app/globals.css */
+@import "tailwindcss";
+
+/* Define the design system using @theme.
+   These variables will serve as the DEFAULT (Dark Mode).
+*/
+@theme {
+  --font-sans: "Inter", sans-serif;
+
+  /* --- BRAND COLORS (Re-added) --- */
+  --color-brand-primary: #A01543;
+  --color-brand-accent: #C51F56;
+  --color-brand-highlight: #E63946;
+
+  /* --- Dark Mode Color Palette (Default) --- */
+  --color-background-dark: #1C1C1C;
+  --color-background-card: #2A2A2A; /* CHANGED: Made fully opaque. Was #2A2A2A66 */
+  --color-background-sidebar: #22272B;
+  --color-text-primary: #EAEBEE;
+  --color-text-secondary: #8A9199;
+  --color-text-logo: #D34371;
+  --color-border: #374151;
+
+  /* --- Accent Colors --- */
+  --color-accent-yellow: #FACC15;
+  --color-accent-green: #34D399;
+  --color-accent-red: #F87171;
+  --color-accent-blue: #60A5FA;
+}
+
+/* FILE: apps/web/globals.css */
+/* PURPOSE: Updated to use your brand colors for the main theme. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+ 
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+ 
+    /* THIS IS THE FIX: The --primary variable now uses your brand color. */
+    --primary: 336 75% 35%; /* Corresponds to #A01543 */
+    --primary-foreground: 336 75% 98%; /* A light color for text on the primary background */
+ 
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+ 
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+ 
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 336 75% 35%;
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .light {
+    --background: 0 0% 98%;
+    --foreground: 240 10% 3.9%;
+ 
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+ 
+    /* THIS IS THE FIX: The --primary variable now uses your brand color. */
+    --primary: 336 75% 35%; /* Corresponds to #A01543 */
+    --primary-foreground: 336 75% 98%;
+ 
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+ 
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+ 
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 336 75% 35%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* --- Third-Party and Custom CSS (remains the same) --- */
+@import "leaflet/dist/leaflet.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ... (rest of the file remains the same) ... */
+
+::-webkit-scrollbar-track {
+  background: var(--color-background-dark);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 10px;
+  border: 3px solid var(--color-background-dark);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-text-secondary);
+}
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+/* --- NEW: Keyframes for the glowing effect --- */
+@keyframes glow {
+  0% { box-shadow: 0 0 5px var(--color-brand-accent); }
+  50% { box-shadow: 0 0 20px var(--color-brand-accent), 0 0 30px var(--color-brand-highlight); }
+  100% { box-shadow: 0 0 5px var(--color-brand-accent); }
+}
+
+.animate-glow {
+  animation: glow 1.5s infinite alternate;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.129 0.042 264.695);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.129 0.042 264.695);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.129 0.042 264.695);
+  --primary: oklch(0.208 0.042 265.755);
+  --primary-foreground: oklch(0.984 0.003 247.858);
+  --secondary: oklch(0.968 0.007 247.896);
+  --secondary-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.554 0.046 257.417);
+  --accent: oklch(0.968 0.007 247.896);
+  --accent-foreground: oklch(0.208 0.042 265.755);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.929 0.013 255.508);
+  --input: oklch(0.929 0.013 255.508);
+  --ring: oklch(0.704 0.04 256.788);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.984 0.003 247.858);
+  --sidebar-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-primary: oklch(0.208 0.042 265.755);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-ring: oklch(0.704 0.04 256.788);
+}
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --card: oklch(0.208 0.042 265.755);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --popover: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.929 0.013 255.508);
+  --primary-foreground: oklch(0.208 0.042 265.755);
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.551 0.027 264.364);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.551 0.027 264.364);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.leaflet-popup-content-wrapper {
+  background: var(--color-background-card) !important;
+  color: var(--color-text-primary) !important;
+  border-radius: var(--radius) !important; /* Use your global radius */
+  border: 1px solid var(--color-border) !important; /* Add a subtle border */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4) !important; /* Adjust shadow for dark theme */
+  padding: 0 !important; /* Control padding inside the content div */
+}
+
+/* Target the popup's arrow (tip) */
+.leaflet-popup-tip {
+  background: var(--color-background-card) !important;
+  box-shadow: none !important; /* Remove shadow from the tip */
+  border: 1px solid var(--color-border) !important; /* Match border */
+}
+
+/* Ensure the popup content area padding is controlled by your inner div */
+.leaflet-popup-content {
+  margin: 0 !important; /* Remove default margin */
+  padding: 1rem !important; /* Apply desired internal padding via your inner div */
+}
+
+/* Adjust button and close button colors for dark theme */
+.leaflet-popup-close-button {
+  color: var(--color-text-secondary) !important; /* Make close button visible */
+  right: 8px !important; /* Adjust position */
+  top: 8px !important;
+}
+.leaflet-popup-close-button:hover {
+  color: var(--color-text-primary) !important;
+}
+
+:root {
+  --radius: 0.65rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.645 0.246 16.439);
+  --primary-foreground: oklch(0.969 0.015 12.422);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --accent: oklch(0.967 0.001 286.375);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.645 0.246 16.439);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-primary: oklch(0.645 0.246 16.439);
+  --sidebar-primary-foreground: oklch(0.969 0.015 12.422);
+  --sidebar-accent: oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-ring: oklch(0.645 0.246 16.439);
+}
+
+.dark {
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.645 0.246 16.439);
+  --primary-foreground: oklch(0.969 0.015 12.422);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.645 0.246 16.439);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.645 0.246 16.439);
+  --sidebar-primary-foreground: oklch(0.969 0.015 12.422);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.645 0.246 16.439);
+}
+
+/* ==================== NODA HIGHLIGHTING SYSTEM ==================== */
+/* Enhanced highlighting system that integrates with your existing design */
+
+/* --- HIGHLIGHTING KEYFRAMES --- */
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 4px 2px hsl(var(--primary) / 0.6);
+  }
+  50% {
+    box-shadow: 0 0 16px 6px hsl(var(--primary) / 0.8);
+  }
+  100% {
+    box-shadow: 0 0 4px 2px hsl(var(--primary) / 0.6);
+  }
+}
+
+@keyframes glow-entrance {
+  from {
+    outline-color: transparent;
+    box-shadow: none;
+    background-color: transparent;
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.02);
+  }
+  to {
+    outline-color: hsl(var(--primary));
+    box-shadow: 0 0 16px 6px hsl(var(--primary) / 0.8);
+    background-color: hsl(var(--primary) / 0.05);
+    transform: scale(1);
+  }
+}
+
+@keyframes noda-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px 4px hsl(var(--primary) / 0.4);
+    outline-color: hsl(var(--primary));
+  }
+  50% {
+    box-shadow: 0 0 20px 8px hsl(var(--primary) / 0.7);
+    outline-color: hsl(var(--primary) / 0.8);
+  }
+}
+
+/* --- PRIMARY HIGHLIGHTING CLASSES --- */
+/* --- THIS IS THE NEW, CORRECTED CODE --- */
+.glowing-highlight {
+  position: relative;
+  border-radius: var(--radius);
+  /* CORRECT: Uses your brand color for the outline */
+  outline: 2px solid var(--color-brand-primary) !important;
+  outline-offset: 3px;
+  /* CORRECT: Uses your brand accent for a simpler, consistent glow */
+  box-shadow: 0 0 12px 2px var(--color-brand-accent) !important;
+  /* CORRECT: Tints background with brand color at 15% opacity */
+  background-color: rgba(160, 21, 67, 0.15) !important;
+  animation: glow-entrance 0.6s ease-out;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+
+/* Your existing agent-highlight class (enhanced) */
+.agent-highlight {
+  transition: all 0.5s ease-in-out;
+  background-color: hsl(var(--color-accent-blue) / 0.2);
+  box-shadow: 0 0 0 2px hsl(var(--color-accent-blue) / 0.8);
+  border-radius: var(--radius);
+  outline-offset: 2px;
+}
+
+/* --- NEW HIGHLIGHTING SYSTEM CLASSES --- */
+/* --- THIS IS THE NEW, CORRECTED CODE --- */
+.noda-highlight-primary {
+  position: relative;
+  /* CORRECT: Uses your brand color for the outline */
+  outline: 2px solid var(--color-brand-primary) !important; 
+  outline-offset: 2px;
+  border-radius: var(--radius);
+  /* CORRECT: Uses your brand accent for the shadow/glow */
+  box-shadow: 0 0 12px 2px var(--color-brand-accent) !important; 
+  /* CORRECT: Uses your brand color for the background tint, with a more visible 15% opacity */
+  background-color: rgba(160, 21, 67, 0.15) !important; /* This is #A01543 with opacity */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+/* Secondary highlight (related elements) */
+.noda-highlight-secondary {
+  position: relative;
+  outline: 1px solid hsl(var(--color-accent-blue)) !important;
+  outline-offset: 1px;
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 2px hsl(var(--color-accent-blue) / 0.15) !important;
+  background-color: hsl(var(--color-accent-blue) / 0.03) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+}
+
+/* Success state highlight */
+.noda-highlight-success {
+  position: relative;
+  outline: 2px solid hsl(var(--color-accent-green)) !important;
+  outline-offset: 2px;
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 4px hsl(var(--color-accent-green) / 0.2) !important;
+  background-color: hsl(var(--color-accent-green) / 0.05) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+/* Error state highlight */
+.noda-highlight-error {
+  position: relative;
+  outline: 2px solid hsl(var(--color-accent-red)) !important;
+  outline-offset: 2px;
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 4px hsl(var(--color-accent-red) / 0.2) !important;
+  background-color: hsl(var(--color-accent-red) / 0.05) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+/* Pulse animation for attention-grabbing */
+.noda-highlight-pulse {
+  animation: noda-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* --- COMPONENT-SPECIFIC ENHANCEMENTS --- */
+/* Enhanced styles for KPI cards */
+.glowing-highlight[id*="kpi"],
+.noda-highlight-primary[id*="kpi"] {
+  transform: scale(1.03);
+  box-shadow: 
+    0 0 0 4px hsl(var(--primary) / 0.3),
+    0 8px 25px -5px hsl(var(--primary) / 0.4) !important;
+}
+
+/* Enhanced styles for tables */
+.glowing-highlight[id*="table"],
+.noda-highlight-primary[id*="table"] {
+  background-color: hsl(var(--primary) / 0.08) !important;
+}
+
+/* Enhanced styles for charts */
+.glowing-highlight[id*="chart"],
+.noda-highlight-primary[id*="chart"] {
+  box-shadow: 
+    0 0 0 6px hsl(var(--primary) / 0.3),
+    0 0 30px hsl(var(--primary) / 0.5) !important;
+}
+
+/* Enhanced styles for map components */
+.glowing-highlight[id*="map"],
+.noda-highlight-primary[id*="map"] {
+  border-radius: calc(var(--radius) + 2px);
+  box-shadow: 
+    0 0 0 6px hsl(var(--primary) / 0.25),
+    0 0 40px hsl(var(--primary) / 0.4) !important;
+}
+
+/* --- ACCESSIBILITY AND PREFERENCES --- */
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .glowing-highlight,
+  .noda-highlight-primary,
+  .noda-highlight-secondary,
+  .noda-highlight-success,
+  .noda-highlight-error {
+    transition: none;
+    animation: none;
+    transform: none !important;
+  }
+  
+  .noda-highlight-pulse {
+    animation: none;
+  }
+}
+
+/* Enhanced contrast for high contrast mode */
+@media (prefers-contrast: high) {
+  .glowing-highlight,
+  .noda-highlight-primary {
+    outline-width: 3px;
+    box-shadow: 
+      0 0 0 6px hsl(var(--primary) / 0.4),
+      0 0 0 8px hsl(var(--foreground) / 0.8) !important;
+  }
+}
+
+/* --- RESPONSIVE DESIGN --- */
+/* Adjust highlighting for smaller screens */
+@media (max-width: 768px) {
+  .glowing-highlight,
+  .noda-highlight-primary {
+    outline-offset: 1px;
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.3) !important;
+  }
+  
+  .glowing-highlight[id*="kpi"],
+  .noda-highlight-primary[id*="kpi"] {
+    transform: scale(1.01); /* Reduced scale for mobile */
+  }
+}
+
+/* --- PRINT STYLES --- */
+@media print {
+  .glowing-highlight,
+  .noda-highlight-primary,
+  .noda-highlight-secondary,
+  .noda-highlight-success,
+  .noda-highlight-error {
+    outline: 2px solid #000 !important;
+    box-shadow: none !important;
+    background-color: #f0f0f0 !important;
+    animation: none;
+    transform: none !important;
+  }
+}

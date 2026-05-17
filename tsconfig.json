@@ -1,0 +1,16 @@
+// noda_turbo/tsconfig.json
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/eslint-config" },
+  
+    { "path": "./packages/typescript-config" },
+
+    { "path": "./packages/graphql-types" },
+    { "path": "./packages/common-utils" },
+    { "path": "./apps/dashboard-frontend" },
+    { "path": "./apps/docs" },
+    { "path": "./apps/graphql-api" },
+    { "path": "./apps/data-ingestion-service" }
+  ]
+}

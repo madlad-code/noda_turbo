@@ -1,0 +1,25 @@
+# Ignore Git history
+.git
+
+# Ignore local Python virtual environments
+.venv
+__pycache__/
+*.pyc
+
+# Ignore Node.js dependencies - THIS IS THE BIGGEST ONE
+node_modules
+
+# Ignore local environment files and Docker files
+.env
+docker-compose.yml
+Dockerfile
+
+# Ignore build outputs from various services
+.next/
+dist/
+build/
+
+# Ignore IDE and OS files
+.vscode/
+.idea/
+*.DS_Store

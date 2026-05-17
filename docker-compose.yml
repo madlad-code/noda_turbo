@@ -1,0 +1,107 @@
+# File: docker-compose.yml
+# REPLACE your entire docker-compose.yml with this
+
+services:
+  # --- Infrastructure Services ---
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: noda_db
+    restart: always
+    ports: [ "${POSTGRES_PORT}:5432" ]
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes: [ "db_data:/var/lib/postgresql/data" ]
+    networks: [ noda_network ]
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: noda_redis
+    restart: always
+    ports: [ "6379:6379" ]
+    volumes: [ "redis_data:/data" ]
+    networks: [ noda_network ]
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # --- Data Ingestion (Keep existing) ---
+  ingestor:
+    build:
+      context: .
+      dockerfile: ./apps/data-ingestion-service/Dockerfile
+    container_name: noda_ingestor
+    env_file: [ .env ]
+    depends_on:
+      db: { condition: service_healthy }
+    restart: on-failure
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+    volumes: [ "./apps/data-ingestion-service/data:/app/apps/data-ingestion-service/data" ]
+    networks: [ noda_network ]
+
+  # --- MAIN: LLM Service as MCP Host ---
+  llm-service:
+    build:
+      context: .
+      dockerfile: ./apps/llm-service/Dockerfile
+    container_name: noda_llm_service
+    restart: always
+    ports: [ "5001:5001" ]
+    env_file: [ .env ]
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+    volumes:
+      - ./apps/llm-service/reports:/app/reports
+    networks: [ noda_network ]
+
+  # --- GraphQL API ---
+  graphql-api:
+    build:
+      context: .
+      dockerfile: ./apps/graphql-api/Dockerfile
+    container_name: noda_graphql_api
+    restart: always
+    ports: [ "4000:4000" ]
+    env_file: [ .env ]
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      llm-service: { condition: service_started }
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+      REDIS_URL: "redis://redis:6379"
+      LLM_SERVICE_URL: "http://llm-service:5001"
+      PORT: 4000
+    networks: [ noda_network ]
+
+  # --- Documentation (Optional) ---
+  docs:
+    build:
+      context: .
+      dockerfile: ./apps/docs/Dockerfile
+    container_name: noda_docs
+    restart: always
+    ports: [ "3002:3000" ]
+    volumes: [ "./apps/docs:/book" ]
+    networks: [ noda_network ]
+
+volumes:
+  db_data:
+  redis_data:
+
+networks:
+  noda_network:
+    name: noda_network

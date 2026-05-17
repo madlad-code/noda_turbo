@@ -1,0 +1,42 @@
+# =================================================================
+# FILE: observability/otel-collector-config.yaml
+# (Create this new file and directory)
+# =================================================================
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+exporters:
+  logging:
+    loglevel: debug
+  
+  loki:
+    endpoint: "http://loki:3100/loki/api/v1/push"
+
+  prometheusremotewrite:
+    endpoint: "http://mimir:9009/api/v1/push"
+    
+  tempo:
+    endpoint: "tempo:4317"
+    tls:
+      insecure: true
+
+processors:
+  batch:
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [tempo, logging]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheusremotewrite, logging]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [loki, logging]

@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+python-dotenv
+fastmcp
+# Use modern, compatible versions
+llama-index-core>=0.12.28
+llama-index-llms-google-genai>=0.1.7
+llama-index-embeddings-google-genai>=0.1.7
+pydantic>=2.7.1
+regex
+asyncpg
+httpx
